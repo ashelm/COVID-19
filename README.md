@@ -4,7 +4,7 @@
 - [Project Overview](#project-overview)
 - [Data Sources](#data-sources)
 - [Field Description](#field-description)
-- [Findings](#findings)
+- [Conclusions](#conclusions)
 - [Contributors](#contributors)
 
 ### Project Overview
