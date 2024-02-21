@@ -13,3 +13,5 @@ Found that xyz
 Found that xyz
 
 ### Q4: For a given country of your choice, compare the daily numbers of confirmed cases, recovered cases,  and of deaths in a typical month during winter and a typical month during summer, and discuss any seasonal patterns.
+
+Found that xyz
