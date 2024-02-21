@@ -4,7 +4,7 @@
 - [Project Overview](#project-overview)
 - [Data Sources](#data-sources)
 - [Field Description](#field-description)
-- [Conclusions](#conclusions)
+- [Findings](#findings)
 - [Contributors](#contributors)
 
 ### Project Overview
@@ -24,7 +24,7 @@ COVID-19 is an infectious disease caused by severe acute respiratory syndrome co
 - **Deaths**: the number of deaths.
 - **Recovered**: the number of recovered cases.
 
-## Conclusions
+## Findings
 - **Q1**:
 - **Q2**:
 - **Q3**: 
