@@ -6,12 +6,20 @@ COVID-19 is an infectious disease caused by severe acute respiratory syndrome co
 Data Source (Date wise) : 2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE
 
 Data Source: https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_daily_reports
+
 File naming convention
 MM-DD-YYYY.csv in UTC.
+
 Field description
+
 •	Province/State: China - province name; US/Canada/Australia/ - city name, state/province name; Others - name of the event (e.g., "Diamond Princess" cruise ship); other countries - blank.
+
 •	Country/Region: country/region name conforming to WHO.
+
 •	Last Update: MM/DD/YYYY HH:mm (24 hour format, in UTC).
+
 •	Confirmed: the number of confirmed cases. 
+
 •	Deaths: the number of deaths.
+
 •	Recovered: the number of recovered cases.
