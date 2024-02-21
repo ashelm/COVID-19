@@ -1,1 +1,97 @@
+import os
+import pandas as pd
+from datetime import datetime, timedelta
+import requests
+import matplotlib.pyplot as plt
+import numpy as np
+%matplotlib inline
+
+# Function to fetch data from the GitHub repository
+def fetch_data(date):
+    url = f'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{date.strftime("%m-%d-%Y")}.csv'
+    response = requests.get(url)
+    if response.status_code == 200:
+        return pd.read_csv(url)
+    else:
+        return None
+
+# Function to filter data for Mainland China
+def filter_mainland_china(df):
+    return df[df['Country/Region'] == 'Mainland China']
+
+# Start and end dates
+start_date = datetime(2020, 1, 22)
+end_date = datetime(2020, 3, 1)
+
+# Directory to save CSV files
+output_dir = 'covid_data_mainland_china'
+os.makedirs(output_dir, exist_ok=True)
+
+# Loop through each date and fetch data
+current_date = start_date
+while current_date <= end_date:
+    print(f"Processing data for {current_date.strftime('%Y-%m-%d')}...")
+    data = fetch_data(current_date)
+    if data is not None:
+        mainland_china_data = filter_mainland_china(data)
+        if not mainland_china_data.empty:
+            # Save filtered data to CSV
+            output_file = os.path.join(output_dir, f'{current_date.strftime("%Y-%m-%d")}.csv')
+            mainland_china_data.to_csv(output_file, index=False)
+            print(f"Saved data to {output_file}")
+        else:
+            print("No data available for Mainland China for this date.")
+    else:
+        print("Data not available for this date.")
+    
+    # Move to the next date
+    current_date += timedelta(days=1)
+
+print("All data processed successfully.")
+
+#Directory containing mainland China CSV files
+data_dir='covid_data_mainland_china'
+
+#Function to load all the CSV files and concatenate them into a single Data frame
+def load_data(directory):
+    dfs=[]
+    for file in os.listdir(directory):
+        if file.endswith('.csv'):
+            df = pd.read_csv(os.path.join(directory,file))
+            dfs.append(df)
+    return pd.concat(dfs,ignore_index=True)  
+#Load data
+covid_data =load_data(data_dir)
+
+# Define possible datetime formats
+possible_formats = ['%m/%d/%Y %H:%M', '%m/%d/%y %H:%M']
+
+# Convert 'Last Update' column to datetime, trying different formats
+for fmt in possible_formats:
+    try:
+        covid_data['Last Update'] = pd.to_datetime(covid_data['Last Update'], format=fmt, errors='coerce')
+        break  # Break the loop if parsing is successful
+    except ValueError:
+        pass  # If parsing fails, try the next format
+
+# Drop rows with NaT (not a valid timestamp)
+covid_data = covid_data.dropna(subset=['Last Update'])
+
+# Convert 'Last Update' column to date
+covid_data['Last Update'] = covid_data['Last Update'].dt.date
+
+#Grouping the data by date and sum the Confirmed, Deaths, and Recovered cases
+grouped_data=covid_data.groupby('Last Update').sum()
+
+#Plotting the timeline
+plt.figure(figsize=(10,4))
+plt.plot(grouped_data.index, grouped_data['Confirmed'], label='Confirmed', marker='o', color='blue')
+plt.plot(grouped_data.index, grouped_data['Deaths'], label='Deaths', marker='x', color='red')
+plt.plot(grouped_data.index, grouped_data['Recovered'], label='Recovered', marker='s', color= 'green')
+plt.title('Covid-19 Timeline for Mainland China')
+plt.xlabel('Date')
+plt.ylabel('Number of Cases')
+plt.legend(['Confirmed', 'Recovered', 'Death'], loc=0)
+plt.tight_layout()
+plt.show()
 
