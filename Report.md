@@ -7,9 +7,10 @@
 - [Question 4](#question-4)
 
 ### Question 1:
-#### Plot the daily numbers of confirmed cases, recovered cases,  and of deaths in the UK (England, Scotland, Wales and Northern Ireland)  and the US from 01 January 2023 to 31 January 2023. The x-axes of the plots should contain 31 points, representing the dates from 01 January 2023 to 31 January 2023. If there is a missing value, set it to NaN instead. Discuss the patterns you see for both countries and compare.
+#### Plot the daily numbers of confirmed cases, recovered cases,  and deaths in the UK (England, Scotland, Wales, and Northern Ireland)  and the US from 01 January 2023 to 31 January 2023. The x-axes of the plots should contain 31 points, representing the dates from 01 January 2023 to 31 January 2023. If there is a missing value, set it to NaN instead. Discuss the patterns you see for both countries and compare.
 
-Found that xyz 
+Observed that:
+Both the US and the UK reported a rise in confirmed and death cases in January 2023. Since they were not documented, the number of recovered cases that were recorded stayed at zero. Both confirmed and death cases in the US showed variable increases and fluctuations, which may have been impacted by the accessibility of vaccines. The UK saw a rise similarly, although with a distinct trend and variance. Death cases consistently increased whereas verified cases in the UK showed a constant rising trend, with occasional dips indicating days with few or no recorded cases. 
 
 ### Question 2:
 #### Focus on Mainland China’s data in the early stages of the pandemic, from 22 January 2020 to 1 March 2020. Plot the daily numbers of confirmed cases, recovered cases,  and of deaths  for thar period, discuss the patterns you see and compare the those observed in Q1 for the overlapping period.
