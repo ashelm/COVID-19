@@ -6,7 +6,8 @@ Found that xyz
 
 ### Q2: Focus on Mainland China’s data in the early stages of the pandemic, from 22 January 2020 to 1 March 2020. Plot the daily numbers of confirmed cases, recovered cases,  and of deaths  for thar period, discuss the patterns you see and compare the those observed in Q1 for the overlapping period.
 
-Found that xyz
+Observed that:
+In late January 2020, Mainland China experienced a sharp increase in the number of confirmed cases as the virus spread rapidly within the country. Alongside the rise in confirmed cases , there was a steady increase in the number of deaths in Mainland China during this period. Despite the increase in the number of confirmed cases, there was a gradual increase in the number of recovered cases. Eventually, the number of recovered cases surpassed the number of death cases in Mainland China.
 
 ### Q3: Compare the daily numbers of confirmed cases, recovered cases,  and of deaths in the UK for the following dates: 1-31 Jan 2023, 1-31 Jan 2022, 1-31 Jan 2021, and discuss the difference between those, explore potential reasons behind any differences, such as different social rules and different variants (alpha, delta, omicron).
 
