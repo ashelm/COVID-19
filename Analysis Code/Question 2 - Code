@@ -85,7 +85,7 @@ grouped_data=covid_data.groupby('Last Update').sum()
 
 #Plotting the timeline
 
-#Plot representing the number oconfirmed cases in mainland China
+#Plot representing the number of confirmed cases in mainland China
 plt.plot(grouped_data.index, grouped_data['Confirmed'], label='Confirmed', marker='o', color='blue')
 plt.title('Covid-19 Timeline for Mainland China')
 plt.xlabel('Date')
@@ -103,7 +103,7 @@ plt.legend([ 'Death'], loc=0)
 plt.tight_layout()
 plt.show()
 
-#plotting the data for the number of  recovered cases in mainland China
+#plotting representing the number of  recovered cases in mainland China
 plt.plot(grouped_data.index, grouped_data['Recovered'], label='Recovered', marker='s', color= 'green')
 plt.title('Covid-19 Timeline for Mainland China')
 plt.xlabel('Date')
