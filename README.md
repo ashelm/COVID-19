@@ -35,4 +35,4 @@ COVID-19 is an infectious disease caused by severe acute respiratory syndrome co
 - Adaora Uzochukwu
 - Ashel Munemo
 - Yvonne Mwangi
-- Kaviya 
+- Kaviya Balasubramaniam 
