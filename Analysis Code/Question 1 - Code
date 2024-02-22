@@ -229,7 +229,9 @@ def fetch_uk_covid_data(start_date, end_date):
     return uk_data
 
 def calculate_cumulative_confirmed(data):
-    grouped_data = data.groupby('Last_Update')['Confirmed'].sum().reset_index()
+    data['Last_Update'] = pd.to_datetime(data['Last_Update'])
+    data['Date'] = data['Last_Update'].dt.date
+    grouped_data = data.groupby('Date')['Confirmed'].sum().reset_index()
     return grouped_data
 
 start_date = datetime(2023, 1, 1)
@@ -242,7 +244,7 @@ cumulative_confirmed_uk = calculate_cumulative_confirmed(uk_covid_data)
 
 
 plt.figure(figsize=(10, 6))
-plt.plot(cumulative_confirmed_uk['Last_Update'], cumulative_confirmed_uk['Confirmed'], label='Confirmed', marker='o', color='blue')
+plt.plot(cumulative_confirmed_uk['Date'], cumulative_confirmed_uk['Confirmed'], label='Confirmed', marker='o', color='blue')
 
 plt.xlabel('Date')
 plt.ylabel('Number of Confirmed Cases')
@@ -256,7 +258,6 @@ plt.grid(True)
 
 plt.legend()
 
-
 plt.tight_layout()
 plt.show()
 
@@ -269,6 +270,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
+
 def fetch_uk_covid_data(start_date, end_date):
     uk_data = pd.DataFrame()
     current_date = start_date
@@ -277,6 +279,7 @@ def fetch_uk_covid_data(start_date, end_date):
         response = requests.get(url)
         if response.status_code == 200:
             csv_data = pd.read_csv(StringIO(response.text))
+
             uk_countries = ['United Kingdom', 'England', 'Scotland', 'Wales', 'Northern Ireland']
             if 'Country_Region' in csv_data.columns:
                 uk_data = pd.concat([uk_data, csv_data[csv_data['Country_Region'].isin(uk_countries)]])
@@ -288,21 +291,24 @@ def fetch_uk_covid_data(start_date, end_date):
     return uk_data
 
 def calculate_cumulative_deaths(data):
-    grouped_data = data.groupby('Last_Update')['Deaths'].sum().reset_index()
+    data['Last_Update'] = pd.to_datetime(data['Last_Update'])
+    data['Date'] = data['Last_Update'].dt.date
+    grouped_data = data.groupby('Date')['Deaths'].sum().reset_index()
     return grouped_data
-    
+
 start_date = datetime(2023, 1, 1)
 end_date = datetime(2023, 1, 31)
 
-uk_covid_data = fetch_uk_covid_data(start_date, end_date)
-cumulative_deaths_uk = calculate_cumulative_deaths(uk_covid_data)
+uk_covid_data_deaths = fetch_uk_covid_data(start_date, end_date)
+
+cumulative_deaths_uk = calculate_cumulative_deaths(uk_covid_data_deaths)
 
 plt.figure(figsize=(10, 6))
-plt.plot(cumulative_deaths_uk['Last_Update'], cumulative_deaths_uk['Deaths'], label='Deaths', marker='o', color='red')
+plt.plot(cumulative_deaths_uk['Date'], cumulative_deaths_uk['Deaths'], label='Deaths', marker='o', color='red')
 
 plt.xlabel('Date')
-plt.ylabel('Number of Death Cases')
-plt.title('COVID-19 Deaths in the UK (January 2023')
+plt.ylabel('Number of Deaths')
+plt.title('COVID-19 Deaths in the UK (January 2023)')
 
 plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=5))
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
@@ -311,6 +317,9 @@ plt.xticks(rotation=45)
 plt.grid(True)
 
 plt.legend()
+
+plt.tight_layout()
+plt.show()
 
 
 # Graph for recovered COVID-19 cases in the UK (January 2023)
@@ -321,7 +330,6 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
-
 def fetch_uk_covid_data(start_date, end_date):
     uk_data = pd.DataFrame()
     current_date = start_date
@@ -330,34 +338,36 @@ def fetch_uk_covid_data(start_date, end_date):
         response = requests.get(url)
         if response.status_code == 200:
             csv_data = pd.read_csv(StringIO(response.text))
-            
+
             uk_countries = ['United Kingdom', 'England', 'Scotland', 'Wales', 'Northern Ireland']
             if 'Country_Region' in csv_data.columns:
                 uk_data = pd.concat([uk_data, csv_data[csv_data['Country_Region'].isin(uk_countries)]])
             elif 'Country/Region' in csv_data.columns:
                 uk_data = pd.concat([uk_data, csv_data[csv_data['Country/Region'].isin(uk_countries)]])
-                
+
         current_date += pd.Timedelta(days=1)
 
     return uk_data
 
 def calculate_cumulative_recovered(data):
-    grouped_data = data.groupby('Last_Update')['Recovered'].sum().reset_index()
+    data['Last_Update'] = pd.to_datetime(data['Last_Update'])
+    data['Date'] = data['Last_Update'].dt.date
+    grouped_data = data.groupby('Date')['Recovered'].sum().reset_index()
     return grouped_data
 
 start_date = datetime(2023, 1, 1)
 end_date = datetime(2023, 1, 31)
 
-uk_covid_data = fetch_uk_covid_data(start_date, end_date)
-cumulative_recovered_uk = calculate_cumulative_recovered(uk_covid_data)
+uk_covid_data_recovered = fetch_uk_covid_data(start_date, end_date)
 
+cumulative_recovered_uk = calculate_cumulative_recovered(uk_covid_data_recovered)
 
 plt.figure(figsize=(10, 6))
-plt.plot(cumulative_recovered_uk['Last_Update'], cumulative_recovered_uk['Recovered'], label='Recovered', marker='o', color='green')
+plt.plot(cumulative_recovered_uk['Date'], cumulative_recovered_uk['Recovered'], label='Recovered', marker='o', color='green')
 
 plt.xlabel('Date')
 plt.ylabel('Number of Recovered Cases')
-plt.title('COVID-19 Recovered Cases in the UK(January 2023)')
+plt.title('COVID-19 Recovered Cases in the UK (January 2023)')
 
 plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=5))
 plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
@@ -365,8 +375,8 @@ plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
 plt.xticks(rotation=45)
 plt.grid(True)
 
-plt.legend()
 
+plt.legend()
 
 plt.tight_layout()
 plt.show()
