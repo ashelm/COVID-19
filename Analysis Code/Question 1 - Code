@@ -1,1 +1,372 @@
+# Graph for confirmed COVID-19 cases in the US (January 2023)
+import os
+from datetime import datetime, timedelta
+import requests
+import pandas as pd
+import matplotlib.pyplot as plt
 
+def fetch_data(date):
+    url = f'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{date.strftime("%m-%d-%Y")}.csv'
+    try:
+        response = requests.get(url)
+        response.raise_for_status() 
+        if response.status_code == 200:
+            return pd.read_csv(url)
+        else:
+            print(f"Failed to fetch data for {date.strftime('%Y-%m-%d')}: Response status code {response.status_code}")
+            return None
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching data for {date.strftime('%Y-%m-%d')}: {e}")
+        return None
+    except pd.errors.EmptyDataError as e:
+        print(f"No data available for {date.strftime('%Y-%m-%d')}")
+        return None
+
+
+def filter_us(df):
+    if 'Country_Region' in df.columns:
+        return df[df['Country_Region'] == 'US']
+    else:
+        return pd.DataFrame()
+
+start_date = datetime(2023, 1, 1)
+end_date = datetime(2023, 1, 31)
+
+dates = []
+confirmed = []
+
+current_date = start_date
+while current_date <= end_date:
+    print(f"Processing data for {current_date.strftime('%Y-%m-%d')}...")
+    data = fetch_data(current_date)
+    if data is not None:
+        us_data = filter_us(data)
+        if not us_data.empty:
+            dates.append(current_date)
+            confirmed_sum = us_data['Confirmed'].sum()
+            confirmed.append(confirmed_sum)
+        else:
+            print("No data available for US for this date.")
+    else:
+        print("Data not available for this date.")
+  
+    current_date += timedelta(days=1)
+
+plt.figure(figsize=(10, 6))
+
+plt.plot(dates, confirmed, label='Confirmed', marker='o', color='blue')
+
+plt.title('COVID-19 Confirmed Cases in the US (January 2023)')
+plt.xlabel('Date')
+plt.ylabel('Count of confirmed cases')
+plt.xticks(rotation=45)
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+
+# Graph for death COVID-19 cases in the US (January 2023)
+import os
+from datetime import datetime, timedelta
+import requests
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def fetch_data(date):
+    url = f'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{date.strftime("%m-%d-%Y")}.csv'
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an exception for 4XX and 5XX status codes
+        if response.status_code == 200:
+            return pd.read_csv(url)
+        else:
+            print(f"Failed to fetch data for {date.strftime('%Y-%m-%d')}: Response status code {response.status_code}")
+            return None
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching data for {date.strftime('%Y-%m-%d')}: {e}")
+        return None
+    except pd.errors.EmptyDataError as e:
+        print(f"No data available for {date.strftime('%Y-%m-%d')}")
+        return None
+
+def filter_us(df):
+    if 'Country_Region' in df.columns:
+        return df[df['Country_Region'] == 'US']
+    else:
+        return pd.DataFrame()
+
+start_date = datetime(2023, 1, 1)
+end_date = datetime(2023, 1, 31)
+
+dates = []
+deaths = []
+
+current_date = start_date
+while current_date <= end_date:
+    print(f"Processing data for {current_date.strftime('%Y-%m-%d')}...")
+    data = fetch_data(current_date)
+    if data is not None:
+        us_data = filter_us(data)
+        if not us_data.empty:
+            dates.append(current_date)
+            deaths_sum = us_data['Deaths'].sum()
+            deaths.append(deaths_sum)
+        else:
+            print("No data available for US for this date.")
+    else:
+        print("Data not available for this date.")
+
+    current_date += timedelta(days=1)
+
+plt.figure(figsize=(10, 6))
+
+plt.plot(dates, deaths, label='Deaths', marker='o', color='red')
+
+plt.title('COVID-19 Deaths in the US (January 2023)')
+plt.xlabel('Date')
+plt.ylabel('Number of Deaths')
+plt.xticks(rotation=45)
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+
+# Graph for recovered COVID-19 cases in the US (January 2023)
+import os
+from datetime import datetime, timedelta
+import requests
+import pandas as pd
+import matplotlib.pyplot as plt
+
+def fetch_data(date):
+    url = f'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{date.strftime("%m-%d-%Y")}.csv'
+    try:
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an exception for 4XX and 5XX status codes
+        if response.status_code == 200:
+            return pd.read_csv(url)
+        else:
+            print(f"Failed to fetch data for {date.strftime('%Y-%m-%d')}: Response status code {response.status_code}")
+            return None
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching data for {date.strftime('%Y-%m-%d')}: {e}")
+        return None
+    except pd.errors.EmptyDataError as e:
+        print(f"No data available for {date.strftime('%Y-%m-%d')}")
+        return None
+
+def filter_us(df):
+    if 'Country_Region' in df.columns:
+        return df[df['Country_Region'] == 'US']
+    else:
+        return pd.DataFrame()
+
+start_date = datetime(2023, 1, 1)
+end_date = datetime(2023, 1, 31)
+
+dates = []
+recovered = []
+
+current_date = start_date
+while current_date <= end_date:
+    print(f"Processing data for {current_date.strftime('%Y-%m-%d')}...")
+    data = fetch_data(current_date)
+    if data is not None:
+        us_data = filter_us(data)
+        if not us_data.empty:
+            dates.append(current_date)
+            recovered_sum = us_data['Recovered'].sum()
+            recovered.append(recovered_sum)
+        else:
+            print("No data available for US for this date.")
+    else:
+        print("Data not available for this date.")
+
+    current_date += timedelta(days=1)
+
+plt.figure(figsize=(10, 6))
+
+plt.plot(dates, recovered, label='Recovered', marker='o', color='green')
+
+plt.title('COVID-19 Recovered Cases in the US (January 2023)')
+plt.xlabel('Date')
+plt.ylabel('Number of Recovered Cases')
+plt.xticks(rotation=45)
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+
+# Graph for confirmed COVID-19 cases in the UK (January 2023)
+import pandas as pd
+import requests
+from io import StringIO
+from datetime import datetime
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+
+
+def fetch_uk_covid_data(start_date, end_date):
+    uk_data = pd.DataFrame()
+    current_date = start_date
+    while current_date <= end_date:
+        url = f"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{current_date.strftime('%m-%d-%Y')}.csv"
+        response = requests.get(url)
+        if response.status_code == 200:
+            csv_data = pd.read_csv(StringIO(response.text))
+
+            uk_countries = ['United Kingdom', 'England', 'Scotland', 'Wales', 'Northern Ireland']
+            if 'Country_Region' in csv_data.columns:
+                uk_data = pd.concat([uk_data, csv_data[csv_data['Country_Region'].isin(uk_countries)]])
+            elif 'Country/Region' in csv_data.columns:
+                uk_data = pd.concat([uk_data, csv_data[csv_data['Country/Region'].isin(uk_countries)]])
+
+        current_date += pd.Timedelta(days=1)
+
+    return uk_data
+
+def calculate_cumulative_confirmed(data):
+    grouped_data = data.groupby('Last_Update')['Confirmed'].sum().reset_index()
+    return grouped_data
+
+start_date = datetime(2023, 1, 1)
+end_date = datetime(2023, 1, 31)
+
+
+uk_covid_data = fetch_uk_covid_data(start_date, end_date)
+
+cumulative_confirmed_uk = calculate_cumulative_confirmed(uk_covid_data)
+
+
+plt.figure(figsize=(10, 6))
+plt.plot(cumulative_confirmed_uk['Last_Update'], cumulative_confirmed_uk['Confirmed'], label='Confirmed', marker='o', color='blue')
+
+plt.xlabel('Date')
+plt.ylabel('Number of Confirmed Cases')
+plt.title('COVID-19 Confirmed Cases in the UK (January 2023)')
+
+plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=5))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+
+plt.xticks(rotation=45)
+plt.grid(True)
+
+plt.legend()
+
+
+plt.tight_layout()
+plt.show()
+
+
+# Graph for death COVID-19 cases in the UK (January 2023)
+import pandas as pd
+import requests
+from io import StringIO
+from datetime import datetime
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+
+def fetch_uk_covid_data(start_date, end_date):
+    uk_data = pd.DataFrame()
+    current_date = start_date
+    while current_date <= end_date:
+        url = f"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{current_date.strftime('%m-%d-%Y')}.csv"
+        response = requests.get(url)
+        if response.status_code == 200:
+            csv_data = pd.read_csv(StringIO(response.text))
+            uk_countries = ['United Kingdom', 'England', 'Scotland', 'Wales', 'Northern Ireland']
+            if 'Country_Region' in csv_data.columns:
+                uk_data = pd.concat([uk_data, csv_data[csv_data['Country_Region'].isin(uk_countries)]])
+            elif 'Country/Region' in csv_data.columns:
+                uk_data = pd.concat([uk_data, csv_data[csv_data['Country/Region'].isin(uk_countries)]])
+
+        current_date += pd.Timedelta(days=1)
+
+    return uk_data
+
+def calculate_cumulative_deaths(data):
+    grouped_data = data.groupby('Last_Update')['Deaths'].sum().reset_index()
+    return grouped_data
+    
+start_date = datetime(2023, 1, 1)
+end_date = datetime(2023, 1, 31)
+
+uk_covid_data = fetch_uk_covid_data(start_date, end_date)
+cumulative_deaths_uk = calculate_cumulative_deaths(uk_covid_data)
+
+plt.figure(figsize=(10, 6))
+plt.plot(cumulative_deaths_uk['Last_Update'], cumulative_deaths_uk['Deaths'], label='Deaths', marker='o', color='red')
+
+plt.xlabel('Date')
+plt.ylabel('Number of Death Cases')
+plt.title('COVID-19 Deaths in the UK (January 2023')
+
+plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=5))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+
+plt.xticks(rotation=45)
+plt.grid(True)
+
+plt.legend()
+
+
+# Graph for recovered COVID-19 cases in the UK (January 2023)
+import pandas as pd
+import requests
+from io import StringIO
+from datetime import datetime
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+
+
+def fetch_uk_covid_data(start_date, end_date):
+    uk_data = pd.DataFrame()
+    current_date = start_date
+    while current_date <= end_date:
+        url = f"https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{current_date.strftime('%m-%d-%Y')}.csv"
+        response = requests.get(url)
+        if response.status_code == 200:
+            csv_data = pd.read_csv(StringIO(response.text))
+            
+            uk_countries = ['United Kingdom', 'England', 'Scotland', 'Wales', 'Northern Ireland']
+            if 'Country_Region' in csv_data.columns:
+                uk_data = pd.concat([uk_data, csv_data[csv_data['Country_Region'].isin(uk_countries)]])
+            elif 'Country/Region' in csv_data.columns:
+                uk_data = pd.concat([uk_data, csv_data[csv_data['Country/Region'].isin(uk_countries)]])
+                
+        current_date += pd.Timedelta(days=1)
+
+    return uk_data
+
+def calculate_cumulative_recovered(data):
+    grouped_data = data.groupby('Last_Update')['Recovered'].sum().reset_index()
+    return grouped_data
+
+start_date = datetime(2023, 1, 1)
+end_date = datetime(2023, 1, 31)
+
+uk_covid_data = fetch_uk_covid_data(start_date, end_date)
+cumulative_recovered_uk = calculate_cumulative_recovered(uk_covid_data)
+
+
+plt.figure(figsize=(10, 6))
+plt.plot(cumulative_recovered_uk['Last_Update'], cumulative_recovered_uk['Recovered'], label='Recovered', marker='o', color='green')
+
+plt.xlabel('Date')
+plt.ylabel('Number of Recovered Cases')
+plt.title('COVID-19 Recovered Cases in the UK(January 2023)')
+
+plt.gca().xaxis.set_major_locator(mdates.DayLocator(interval=5))
+plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y-%m-%d'))
+
+plt.xticks(rotation=45)
+plt.grid(True)
+
+plt.legend()
+
+
+plt.tight_layout()
+plt.show()
