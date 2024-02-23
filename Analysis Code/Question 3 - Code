@@ -105,3 +105,219 @@ plt.ylabel('Confirmed Deaths')
 plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: '{:,.0f}'.format(x)))
 plt.grid(True)
 plt.show()
+
+#plotting graph for recovered data 2021
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+
+# Load the dataset for recoveries
+url = "https://raw.githubusercontent.com/kb72666/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv"
+df_recovered = pd.read_csv(url)
+
+# Filter data for the UK
+ukdatarecovered = df_recovered[df_recovered['Country/Region'] == 'United Kingdom']
+
+# Extract the relevant time series data for recoveries
+date_columns_recovered = ukdatarecovered.columns[4:]
+ukrecovereddata = ukdatarecovered[date_columns_recovered].sum()
+
+# Convert the date columns to datetime
+ukrecovereddata.index = pd.to_datetime(ukrecovereddata.index)
+
+# Filter data for January 1, 2021 - January 31, 2021
+start_date_recovered = '2021-01-01'
+end_date_recovered = '2021-01-31'
+ukrecovereddata = ukrecovereddata.loc[start_date_recovered:end_date_recovered]
+
+# Plot the graph
+plt.figure(figsize=(10, 6))
+plt.plot(ukrecovereddata.index, ukrecovereddata.values, marker='o', linestyle='-', color='g')
+plt.title('COVID-19 Recoveries in the UK (Jan 1, 2021 - Jan 31, 2021)')
+plt.xlabel('Date')
+plt.ylabel('Recoveries')
+
+# Format y-axis ticks to display full numbers
+plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: '{:,.0f}'.format(x)))
+plt.grid(True)
+plt.show()
+
+#graph for 2022 recoveries
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+
+# Load the dataset for recoveries
+url = "https://raw.githubusercontent.com/kb72666/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv"
+df_recovered = pd.read_csv(url)
+
+# Filter data for the UK
+ukdatarecovered = df_recovered[df_recovered['Country/Region'] == 'United Kingdom']
+
+# Extract the relevant time series data for recoveries
+date_columns_recovered = ukdatarecovered.columns[4:]
+ukrecovereddata = ukdatarecovered[date_columns_recovered].sum()
+
+# Convert the date columns to datetime
+ukrecovereddata.index = pd.to_datetime(ukrecovereddata.index)
+
+# Filter data for January 1, 2022 - January 31, 2022
+start_date_recovered = '2022-01-01'
+end_date_recovered = '2022-01-31'
+ukrecovereddata = ukrecovereddata.loc[start_date_recovered:end_date_recovered]
+
+# Plot the graph
+plt.figure(figsize=(10, 6))
+plt.plot(ukrecovereddata.index, ukrecovereddata.values, marker='o', linestyle='-', color='g')
+plt.title('COVID-19 Recoveries in the UK (Jan 1, 2022 - Jan 31, 2022)')
+plt.xlabel('Date')
+plt.ylabel('Recoveries')
+
+# Format y-axis ticks to display full numbers
+plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: '{:,.0f}'.format(x)))
+plt.grid(True)
+plt.show()
+
+#graph for 2023 recoveries
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+
+# Load the dataset for recoveries
+url = "https://raw.githubusercontent.com/kb72666/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_recovered_global.csv"
+df_recovered = pd.read_csv(url)
+
+# Filter data for the UK
+ukdatarecovered = df_recovered[df_recovered['Country/Region'] == 'United Kingdom']
+
+# Extract the relevant time series data for recoveries
+date_columns_recovered = ukdatarecovered.columns[4:]
+ukrecovereddata = ukdatarecovered[date_columns_recovered].sum()
+
+# Convert the date columns to datetime
+ukrecovereddata.index = pd.to_datetime(ukrecovereddata.index)
+
+# Filter data for January 1, 2023 - January 31, 2023
+start_date_recovered = '2023-01-01'
+end_date_recovered = '2023-01-31'
+ukrecovereddata = ukrecovereddata.loc[start_date_recovered:end_date_recovered]
+
+# Plot the graph
+plt.figure(figsize=(10, 6))
+plt.plot(ukrecovereddata.index, ukrecovereddata.values, marker='o', linestyle='-', color='g')
+plt.title('COVID-19 Recoveries in the UK (Jan 1, 2023 - Jan 31, 2023)')
+plt.xlabel('Date')
+plt.ylabel('Recoveries')
+
+# Format y-axis ticks to display full numbers
+plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: '{:,.0f}'.format(x)))
+plt.grid(True)
+plt.show()
+
+#graph for confirmed cases 2023
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+
+# Load the dataset
+url = "https://raw.githubusercontent.com/kb72666/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
+df = pd.read_csv(url)
+
+# Filter data for the UK
+ukdata = df[df['Country/Region'] == 'United Kingdom']
+
+# Extract the relevant time series data
+datecolumns = ukdata.columns[4:]
+ukcasesdata = ukdata[datecolumns].sum()
+
+# Convert the date columns to datetime
+ukcasesdata.index = pd.to_datetime(ukcasesdata.index)
+
+# Filter data for the specified date range
+start_date = '2023-01-01'
+end_date = '2023-01-31'
+ukcasesdata = ukcasesdata.loc[start_date:end_date]
+
+# Plot the graph without rounding y-axis data
+plt.figure(figsize=(10, 6))
+plt.plot(ukcasesdata.index, ukcasesdata.values, marker='o', linestyle='-', color='b')
+plt.title('COVID-19 Confirmed Cases in the UK (Jan 1, 2023 - Jan 31, 2023)')
+plt.xlabel('Date')
+plt.ylabel('Confirmed Cases')
+
+# Format y-axis ticks to display full numbers
+plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: '{:,.0f}'.format(x)))
+plt.grid(True)
+plt.show()
+
+#graph for confirmed cases 2022
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+
+# Load the dataset
+url = "https://raw.githubusercontent.com/kb72666/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
+df = pd.read_csv(url)
+
+# Filter data for the UK
+ukdata = df[df['Country/Region'] == 'United Kingdom']
+
+# Extract the relevant time series data
+datecolumns = ukdata.columns[4:]
+ukcasesdata = ukdata[datecolumns].sum()
+
+# Convert the date columns to datetime
+ukcasesdata.index = pd.to_datetime(ukcasesdata.index)
+
+# Filter data for the specified date range
+start_date = '2022-01-01'
+end_date = '2022-01-31'
+ukcasesdata = ukcasesdata.loc[start_date:end_date]
+
+# Plot the graph without rounding y-axis data
+plt.figure(figsize=(10, 6))
+plt.plot(ukcasesdata.index, ukcasesdata.values, marker='o', linestyle='-', color='b')
+plt.title('COVID-19 Confirmed Cases in the UK (Jan 1, 2022 - Jan 31, 2022)')
+plt.xlabel('Date')
+plt.ylabel('Confirmed Cases')
+
+# Format y-axis ticks to display full numbers
+plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: '{:,.0f}'.format(x)))
+plt.grid(True)
+plt.show()
+
+#graph for confirmed cases 2021
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+
+# Load the dataset
+url = "https://raw.githubusercontent.com/kb72666/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
+df = pd.read_csv(url)
+
+# Filter data for the UK
+ukdata = df[df['Country/Region'] == 'United Kingdom']
+
+# Extract the relevant time series data
+datecolumns = ukdata.columns[4:]
+ukcasesdata = ukdata[datecolumns].sum()
+
+# Convert the date columns to datetime
+ukcasesdata.index = pd.to_datetime(ukcasesdata.index)
+
+# Filter data for the specified date range
+start_date = '2021-01-01'
+end_date = '2021-01-31'
+ukcasesdata = ukcasesdata.loc[start_date:end_date]
+
+# Plot the graph without rounding y-axis data
+plt.figure(figsize=(10, 6))
+plt.plot(ukcasesdata.index, ukcasesdata.values, marker='o', linestyle='-', color='b')
+plt.title('COVID-19 Confirmed Cases in the UK (Jan 1, 2021 - Jan 31, 2021)')
+plt.xlabel('Date')
+plt.ylabel('Confirmed Cases')
+
+# Format y-axis ticks to display full numbers
+plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: '{:,.0f}'.format(x)))
+plt.grid(True)
+plt.show()
