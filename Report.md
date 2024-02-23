@@ -21,7 +21,7 @@ In late January 2020, Mainland China experienced a sharp increase in the number 
 ### Question 3: 
 #### Compare the daily numbers of confirmed cases, recovered cases,  and of deaths in the UK for the following dates: 1-31 Jan 2023, 1-31 Jan 2022, 1-31 Jan 2021, and discuss the difference between those, explore potential reasons behind any differences, such as different social rules and different variants (alpha, delta, omicron).
 
-found that cases
+
 
 ### Question 4:
 #### For a given country of your choice, compare the daily numbers of confirmed cases, recovered cases,  and of deaths in a typical month during winter and a typical month during summer, and discuss any seasonal patterns.
