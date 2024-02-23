@@ -24,11 +24,6 @@ COVID-19 is an infectious disease caused by severe acute respiratory syndrome co
 - **Deaths**: the number of deaths.
 - **Recovered**: the number of recovered cases.
 
-## Findings
-- **Q1**:
-- **Q2**:
-- **Q3**: 
-- **Q4**: e.g. Given the data provided, x countries rate of infection is much higher in the winter months than in the summer months
 
 ## Contributors
 
