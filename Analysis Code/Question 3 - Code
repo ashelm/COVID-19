@@ -1,1 +1,107 @@
+#plotting graph for deaths 2023 jan
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
 
+# Load the dataset
+url = "https://raw.githubusercontent.com/kb72666/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
+df = pd.read_csv(url)
+
+# Filter data for the United kingdom
+ukdata = df[df['Country/Region'] == 'United Kingdom']
+
+# Extract the relevant time series data
+date_columns = ukdata.columns[4:]
+ukdeathsdata = ukdata[date_columns].sum()
+
+# Convert the date columns to datetime
+ukdeathsdata.index = pd.to_datetime(ukdeathsdata.index)
+
+# Filter data for January 1, 2023 - January 31, 2023
+start_date = '2023-01-01'
+end_date = '2023-01-31'
+ukdeathsdata = ukdeathsdata.loc[start_date:end_date]
+
+# Plot the graph
+plt.figure(figsize=(10, 6))
+plt.plot(ukdeathsdata.index, ukdeathsdata.values, marker='o', linestyle='-', color='r')
+plt.title('COVID-19 Confirmed Deaths in the UK (Jan 1, 2023 - Jan 31, 2023)')
+plt.xlabel('Date')
+plt.ylabel('Confirmed Deaths')
+
+# Format y-axis ticks to display full numbers of deaths
+plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: '{:,.0f}'.format(x)))
+plt.grid(True)
+plt.show()
+
+#plotting graph for deaths in 2022 jan
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+
+# Load the dataset
+url = "https://raw.githubusercontent.com/kb72666/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
+df = pd.read_csv(url)
+
+# Filter data for the United kingdom
+ukdata = df[df['Country/Region'] == 'United Kingdom']
+
+# Extract the relevant time series data
+date_columns = ukdata.columns[4:]
+ukdeathsdata = ukdata[date_columns].sum()
+
+# Convert the date columns to datetime
+ukdeathsdata.index = pd.to_datetime(ukdeathsdata.index)
+
+# Filter data for January 1, 2022 - January 31, 2022
+start_date = '2022-01-01'
+end_date = '2022-01-31'
+ukdeathsdata = ukdeathsdata.loc[start_date:end_date]
+
+# Plot the graph
+plt.figure(figsize=(10, 6))
+plt.plot(ukdeathsdata.index, ukdeathsdata.values, marker='o', linestyle='-', color='r')
+plt.title('COVID-19 Confirmed Deaths in the UK (Jan 1, 2022 - Jan 31, 2022)')
+plt.xlabel('Date')
+plt.ylabel('Confirmed Deaths')
+
+# Format y-axis ticks to display full numbers of deaths
+plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: '{:,.0f}'.format(x)))
+plt.grid(True)
+plt.show()
+
+#plotting graph for deaths in 2021
+import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.ticker import FuncFormatter
+
+# Load the dataset
+url = "https://raw.githubusercontent.com/kb72666/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv"
+df = pd.read_csv(url)
+
+# Filter data for the United kingdom
+ukdata = df[df['Country/Region'] == 'United Kingdom']
+
+# Extract the relevant time series data
+date_columns = ukdata.columns[4:]
+ukdeathsdata = ukdata[date_columns].sum()
+
+# Convert the date columns to datetime
+ukdeathsdata.index = pd.to_datetime(ukdeathsdata.index)
+
+# Filter data for January 1, 2021 - January 31, 2021
+start_date = '2021-01-01'
+end_date = '2021-01-31'
+ukdeathsdata = ukdeathsdata.loc[start_date:end_date]
+
+# Plot the graph
+plt.figure(figsize=(10, 6))
+plt.plot(ukdeathsdata.index, ukdeathsdata.values, marker='o', linestyle='-', color='r')
+plt.title('COVID-19 Confirmed Deaths in the UK (Jan 1, 2021 - Jan 31, 2021)')
+plt.xlabel('Date')
+plt.ylabel('Confirmed Deaths')
+
+# Format y-axis ticks to display full numbers of deaths
+plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: '{:,.0f}'.format(x)))
+plt.grid(True)
+plt.show()
