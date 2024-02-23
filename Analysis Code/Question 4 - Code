@@ -6,64 +6,45 @@ import matplotlib.pyplot as plt
 import numpy as np
 %matplotlib inline
 
-# Function to fetch data from the GitHub repository for France
-def fetch_data(date):
+# Function to fetch data from the GitHub repository for a specific country
+def fetch_data(date, country):
     url = f'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/{date.strftime("%m-%d-%Y")}.csv'
     response = requests.get(url)
     if response.status_code == 200:
-        return pd.read_csv(url)
+        data = pd.read_csv(url)
+        return data[data['Country_Region'] == country]
     else:
         return None
 
-# Function to filter data for France
-def filter_France(df):
-    return df[df['Country_Region'] == 'France']
+# Function to filter data for a specific country
+def filter_country(df, country):
+    return df[df['Country_Region'] == country]
 
-# Start and end dates for July and December in the year 2021
+# Start and end dates for July 2021
 start_date_july = datetime(2021, 7, 1)
 end_date_july = datetime(2021, 7, 31)
 
-start_date_december = datetime(2021, 12, 1)
-end_date_december = datetime(2021, 12, 31)
+# Country
+country = 'Finland'
 
 # Directory to save CSV files
-output_dir = 'covid_data_france_2021'
+output_dir = f'covid_data_{country.lower()}_july_2021'
 os.makedirs(output_dir, exist_ok=True)
 
-# Loop through each date in July and fetch data
+# Loop through each date and fetch data
 current_date = start_date_july
 while current_date <= end_date_july:
     print(f"Processing data for {current_date.strftime('%Y-%m-%d')}...")
-    data = fetch_data(current_date)
+    data = fetch_data(current_date, country)
     if data is not None:
-        france_data = filter_France(data)
-        if not france_data.empty:
+        country_data = filter_country(data, country)
+        if not country_data.empty:
             # Save filtered data to CSV
             output_file = os.path.join(output_dir, f'{current_date.strftime("%Y-%m-%d")}.csv')
-            france_data.to_csv(output_file, index=False)
+            country_data.to_csv(output_file, index=False)
             print(f"Saved data to {output_file}")
         else:
-            print("No data available for France for this date.")
-    else:
-        print("Data not available for this date.")
-    
-    # Move to the next date
-    current_date += timedelta(days=1)
-
-# Loop through each date in December and fetch data
-current_date = start_date_december
-while current_date <= end_date_december:
-    print(f"Processing data for {current_date.strftime('%Y-%m-%d')}...")
-    data = fetch_data(current_date)
-    if data is not None:
-        france_data = filter_France(data)
-        if not france_data.empty:
-            # Save filtered data to CSV
-            output_file = os.path.join(output_dir, f'{current_date.strftime("%Y-%m-%d")}.csv')
-            france_data.to_csv(output_file, index=False)
-            print(f"Saved data to {output_file}")
-        else:
-            print("No data available for France for this date.")
+            print(f"No data available for {country} for this date.")
     else:
         print("Data not available for this date.")
 
@@ -72,65 +53,118 @@ while current_date <= end_date_december:
 
 print("All data processed successfully.")
 
-# Directory containing France CSV files
-data_dir = 'cleaned_covid_data_france'
+# Start and end dates for December 2021
+start_date_december = datetime(2021, 12, 1)
+end_date_december = datetime(2021, 12, 31)
 
+# Directory to save CSV files for December
+output_dir_december = f'covid_data_{country.lower()}_december_2021'
+os.makedirs(output_dir_december, exist_ok=True)
+
+# Loop through each date in December and fetch data
+current_date = start_date_december
+while current_date <= end_date_december:
+    print(f"Processing data for {current_date.strftime('%Y-%m-%d')}...")
+    data = fetch_data(current_date, country)
+    if data is not None:
+        country_data = filter_country(data, country)
+        if not country_data.empty:
+            # Save filtered data to CSV
+            output_file = os.path.join(output_dir_december, f'{current_date.strftime("%Y-%m-%d")}.csv')
+            country_data.to_csv(output_file, index=False)
+            print(f"Saved data to {output_file}")
+        else:
+            print(f"No data available for {country} for this date.")
+    else:
+        print("Data not available for this date.")
+
+    # Move to the next date
+    current_date += timedelta(days=1)
+
+print("All data for December processed successfully.")
+
+# Directory containing country CSV files
+data_dir = output_dir
 
 # Function to load all the CSV files and concatenate them into a single DataFrame
 def load_data(directory):
-    dfs = []
-    for file in os.listdir(directory):
-        if file.endswith('.csv'):
-            df = pd.read_csv(os.path.join(directory, file))
-            dfs.append(df)
+    dfs = [pd.read_csv(os.path.join(directory, file)) for file in os.listdir(directory) if file.endswith('.csv')]
     return pd.concat(dfs, ignore_index=True)
 
 # Load data
-covid_data = load_data(data_dir)
+country_data = load_data(data_dir)
 
-# Define possible datetime formats
-possible_formats = ['%m/%d/%Y %H:%M', '%m/%d/%y %H:%M']
+# Convert 'Last Update' column to datetime
+country_data['Last_Update'] = pd.to_datetime(country_data['Last_Update'])
 
-# Convert 'Last Update' column to datetime, trying different formats
-for fmt in possible_formats:
-    try:
-        covid_data['Last_Update'] = pd.to_datetime(covid_data['Last_Update'], format=fmt, errors='coerce')
-        break  # Break the loop if parsing is successful
-    except ValueError:
-        pass  # If parsing fails, try the next format
+# Grouping the data by date and sum the Confirmed cases
+grouped_data = country_data.groupby('Last_Update').sum()
 
-# Remove rows without a valid timestamp
-covid_data = covid_data.dropna(subset=['Last_Update'])
 
-# Convert 'Last Update' column to date
-covid_data['Last_Update'] = covid_data['Last_Update'].dt.date
-
-# Grouping the data by date and sum the Confirmed, Deaths, and Recovered cases
-grouped_data = covid_data.groupby('Last_Update').sum()
-
-# Plotting the number of confirmed cases in France
+# Plotting the number of confirmed cases in the specified country for July 2021
 plt.plot(grouped_data.index, grouped_data['Confirmed'], label='Confirmed', marker='o', color='blue')
-plt.title('COVID-19 Timeline for France')
+plt.title(f'COVID-19 Confirmed Cases in {country} (July 2021)')
 plt.xlabel('Date')
 plt.ylabel('Number of Cases')
 plt.legend(['Confirmed'], loc=0)
 plt.tight_layout()
 plt.show()
 
-# Plotting the number of deaths in France
+# Plotting the number of deaths in the specified country for July 2021
 plt.plot(grouped_data.index, grouped_data['Deaths'], label='Deaths', marker='x', color='red')
-plt.title('COVID-19 Timeline for France')
+plt.title(f'COVID-19 Deaths in {country} (July 2021)')
 plt.xlabel('Date')
-plt.ylabel('Number of Cases')
-plt.legend(['Death'], loc=0)
+plt.ylabel('Number of Deaths')
+plt.legend(['Deaths'], loc=0)
 plt.tight_layout()
 plt.show()
 
-# Plotting the number of recovered cases in France
+# Plotting the number of recovered cases in the specified country for July 2021
 plt.plot(grouped_data.index, grouped_data['Recovered'], label='Recovered', marker='s', color='green')
-plt.title('COVID-19 Timeline for France')
+plt.title(f'COVID-19 Recovered Cases in {country} (July 2021)')
 plt.xlabel('Date')
-plt.ylabel('Number of Cases')
+plt.ylabel('Number of Recovered Cases')
 plt.legend(['Recovered'], loc=0)
 plt.tight_layout()
 plt.show()
+
+
+# Directory containing country CSV files for December
+data_dir_december = output_dir_december
+
+# Load data for December
+country_data_december = load_data(data_dir_december)
+
+# Convert 'Last Update' column to datetime
+country_data_december['Last_Update'] = pd.to_datetime(country_data_december['Last_Update'])
+
+# Grouping the data by date and sum the Confirmed cases for December
+grouped_data_december = country_data_december.groupby('Last_Update').sum()
+
+# Plotting the number of confirmed cases in the specified country for December 2021
+plt.plot(grouped_data_december.index, grouped_data_december['Confirmed'], label='Confirmed', marker='o', color='blue')
+plt.title(f'COVID-19 Confirmed Cases in {country} (December 2021)')
+plt.xlabel('Date')
+plt.ylabel('Number of Cases')
+plt.legend(['Confirmed'], loc=0)
+plt.tight_layout()
+plt.show()
+
+# Plotting the number of deaths in the specified country for December 2021
+plt.plot(grouped_data_december.index, grouped_data_december['Deaths'], label='Deaths', marker='x', color='red')
+plt.title(f'COVID-19 Deaths in {country} (December 2021)')
+plt.xlabel('Date')
+plt.ylabel('Number of Deaths')
+plt.legend(['Deaths'], loc=0)
+plt.tight_layout()
+plt.show()
+
+# Plotting the number of recovered cases in the specified country for December 2021
+plt.plot(grouped_data_december.index, grouped_data_december['Recovered'], label='Recovered', marker='s', color='green')
+plt.title(f'COVID-19 Recovered Cases in {country} (December 2021)')
+plt.xlabel('Date')
+plt.ylabel('Number of Recovered Cases')
+plt.legend(['Recovered'], loc=0)
+plt.tight_layout()
+plt.show()
+
