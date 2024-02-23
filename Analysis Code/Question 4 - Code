@@ -108,6 +108,7 @@ plt.xlabel('Date')
 plt.ylabel('Number of Cases')
 plt.legend(['Confirmed'], loc=0)
 plt.tight_layout()
+plt.xticks(rotation=45)
 plt.show()
 
 # Plotting the number of deaths in the specified country for July 2021
@@ -117,6 +118,7 @@ plt.xlabel('Date')
 plt.ylabel('Number of Deaths')
 plt.legend(['Deaths'], loc=0)
 plt.tight_layout()
+plt.xticks(rotation=45)
 plt.show()
 
 # Plotting the number of recovered cases in the specified country for July 2021
@@ -126,6 +128,7 @@ plt.xlabel('Date')
 plt.ylabel('Number of Recovered Cases')
 plt.legend(['Recovered'], loc=0)
 plt.tight_layout()
+plt.xticks(rotation=45)
 plt.show()
 
 
@@ -148,6 +151,7 @@ plt.xlabel('Date')
 plt.ylabel('Number of Cases')
 plt.legend(['Confirmed'], loc=0)
 plt.tight_layout()
+plt.xticks(rotation=45)
 plt.show()
 
 # Plotting the number of deaths in the specified country for December 2021
@@ -157,6 +161,7 @@ plt.xlabel('Date')
 plt.ylabel('Number of Deaths')
 plt.legend(['Deaths'], loc=0)
 plt.tight_layout()
+plt.xticks(rotation=45)
 plt.show()
 
 # Plotting the number of recovered cases in the specified country for December 2021
@@ -166,5 +171,6 @@ plt.xlabel('Date')
 plt.ylabel('Number of Recovered Cases')
 plt.legend(['Recovered'], loc=0)
 plt.tight_layout()
+plt.xticks(rotation=45)
 plt.show()
 
