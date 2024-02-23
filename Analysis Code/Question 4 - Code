@@ -19,37 +19,56 @@ def fetch_data(date):
 def filter_France(df):
     return df[df['Country_Region'] == 'France']
 
-# Start and end dates for December and July in each year
-start_date_december = [datetime(year, 12, 1) for year in range(2021, 2023)]
-end_date_december = [datetime(year, 12, 31) for year in range(2021, 2023)]
+# Start and end dates for July and December in the year 2021
+start_date_july = datetime(2021, 7, 1)
+end_date_july = datetime(2021, 7, 31)
 
-start_date_july = [datetime(year, 7, 1) for year in range(2021, 2023)]
-end_date_july = [datetime(year, 7, 31) for year in range(2021, 2023)]
+start_date_december = datetime(2021, 12, 1)
+end_date_december = datetime(2021, 12, 31)
 
 # Directory to save CSV files
-output_dir = 'cleaned_covid_data_france'
+output_dir = 'covid_data_france_2021'
 os.makedirs(output_dir, exist_ok=True)
 
-# Loop through each date in December and July for each year
-for start_dec, end_dec, start_jul, end_jul in zip(start_date_december, end_date_december, start_date_july, end_date_july):
-    for current_date in [start_dec + timedelta(days=x) for x in range((end_dec-start_dec).days + 1)]:
-        print(f"Processing data for {current_date.strftime('%Y-%m-%d')}...")
-        
-        # Fetch data for France
-        data = fetch_data(current_date)
-        
-        if data is not None:
-            france_data = filter_France(data)
-            if not france_data.empty:
-     
-                # Save filtered data to CSV
-                output_file = os.path.join(output_dir, f'{current_date.strftime("%Y-%m-%d")}.csv')
-                france_data.to_csv(output_file, index=False)
-                print(f"Saved data to {output_file}")
-            else:
-                print("No data available for France for this date.")
+# Loop through each date in July and fetch data
+current_date = start_date_july
+while current_date <= end_date_july:
+    print(f"Processing data for {current_date.strftime('%Y-%m-%d')}...")
+    data = fetch_data(current_date)
+    if data is not None:
+        france_data = filter_France(data)
+        if not france_data.empty:
+            # Save filtered data to CSV
+            output_file = os.path.join(output_dir, f'{current_date.strftime("%Y-%m-%d")}.csv')
+            france_data.to_csv(output_file, index=False)
+            print(f"Saved data to {output_file}")
         else:
-            print("Data not available for this date.")
+            print("No data available for France for this date.")
+    else:
+        print("Data not available for this date.")
+    
+    # Move to the next date
+    current_date += timedelta(days=1)
+
+# Loop through each date in December and fetch data
+current_date = start_date_december
+while current_date <= end_date_december:
+    print(f"Processing data for {current_date.strftime('%Y-%m-%d')}...")
+    data = fetch_data(current_date)
+    if data is not None:
+        france_data = filter_France(data)
+        if not france_data.empty:
+            # Save filtered data to CSV
+            output_file = os.path.join(output_dir, f'{current_date.strftime("%Y-%m-%d")}.csv')
+            france_data.to_csv(output_file, index=False)
+            print(f"Saved data to {output_file}")
+        else:
+            print("No data available for France for this date.")
+    else:
+        print("Data not available for this date.")
+
+    # Move to the next date
+    current_date += timedelta(days=1)
 
 print("All data processed successfully.")
 
